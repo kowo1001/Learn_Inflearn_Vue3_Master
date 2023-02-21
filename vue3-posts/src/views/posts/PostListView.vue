@@ -23,8 +23,16 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const posts = ref([]);
-const fetchPosts = () => {
-	posts.value = getPosts();
+const fetchPosts = async () => {
+	// ({ data: posts.value } = await getPosts()); // 이렇게도 받을 수 있음
+	const { data } = await getPosts();
+	posts.value = data;
+
+	// getPosts().then(response => {
+	// 	console.log('response: ', response);
+	// }).catch(error => {
+	// 	console.log('error: ', error);
+	// })
 };
 fetchPosts();
 const goPage = (id) => {
