@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<h2>제목</h2>
-		<p>내용</p>
-		<p class="text-muted">2020-01-01</p>
+		<h2>{{ post.title }}</h2>
+		<p>{{ post.content }}</p>
+		<p class="text-muted">{{ post.createdAt }}</p>
 		<hr class="my-4" />
 		<div class="row g-2">
 			<div class="col-auto">
@@ -21,7 +21,7 @@
 				</button>
 			</div>
 			<div class="col-auto">
-				<button class="btn btn-outline-danger">삭제</button>
+				<button class="btn btn-outline-danger" @click="remove">삭제</button>
 			</div>
 		</div>
 		<hr class="my-4" />
@@ -30,12 +30,61 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute, useRouter, deletePost } from 'vue-router';
+import { ref } from 'vue';
+
+const props = defineProps({
+	id: Number,
+})
 
 const route = useRoute();
 const router = useRouter();
+// const id = route.params.id;
+/**
+ * ref
+ * 장점) 객체 할당 가능
+ * 장점) 일관성이 있음 (일관성 유지 가능)
+ * 단점) form.value.title, form.value.content
+ * 
+ * reactive
+ * 장점) form.title, form.content
+ * 단점) 객체 할당 불가능
+ * 
+ */
 const id = route.params.id;
+const post = ref({
+	title: null,
+	content: null,
+	createdAt: null,
+});
 
+const fetchPost = async () => {
+	try {
+		const { data } = await getPostById(props.id);
+		// post.value = { ...data }; // 어떤 데이터가 들어오는지 모름
+		setPost(data);	
+	} catch (error) {
+		console.error(error);	
+	}
+};
+const setPost = ({ title, content, createdAt }) => {
+	post.value.title = title;
+	post.value.content = content;
+	post.value.createdAt = createdAt;
+}
+
+fetchPost();
+const remove = async () => {
+	try {
+		if (confirm('삭제 하시겠습니까?') === false) {
+			return;
+		}
+		await defineProps(props.id);
+		router.push({ name: 'PostList' });
+	} catch (error) {
+		console.error(error);
+	}
+}
 const goListPage = () => router.push({ name: 'PostList' });
 const goEditPage = () => router.push({ name: 'PostEdit', params: { id } });
 </script>

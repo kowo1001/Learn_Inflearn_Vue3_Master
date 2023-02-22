@@ -12,11 +12,14 @@
 				></PostItem>
 			</div>
 		</div>
+		<hr class="my-4" />
 	</div>
 </template>
 
 <script setup>
 import PostItem from '@/components/posts/PostItem.vue';
+import PostDetailView from '@/views/posts/PostDetailView.vue';
+
 import { getPosts } from '@/api/posts';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -25,8 +28,12 @@ const router = useRouter();
 const posts = ref([]);
 const fetchPosts = async () => {
 	// ({ data: posts.value } = await getPosts()); // 이렇게도 받을 수 있음
-	const { data } = await getPosts();
-	posts.value = data;
+	try {
+		const { data } = await getPosts();
+		posts.value = data;
+	} catch (error) {
+		console.error(error);
+	}
 
 	// getPosts().then(response => {
 	// 	console.log('response: ', response);
