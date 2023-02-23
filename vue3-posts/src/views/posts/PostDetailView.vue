@@ -30,28 +30,38 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter, deletePost } from 'vue-router';
+import { useRouter } from 'vue-router';
+import { getPostById } from '@/api/posts';
 import { ref } from 'vue';
+import { formToJSON } from 'axios';
 
 const props = defineProps({
 	id: Number,
-})
+});
 
-const route = useRoute();
+// const route = useRoute();
 const router = useRouter();
 // const id = route.params.id;
+// console.log('post:', getPostById(id));
+
+// const fetchPost = () => {
+// 	const data = getPostById(id);
+// 	form.value = { ...data };
+// };
+// fetchPost();
+
 /**
  * ref
  * 장점) 객체 할당 가능
  * 장점) 일관성이 있음 (일관성 유지 가능)
  * 단점) form.value.title, form.value.content
- * 
+ *
  * reactive
  * 장점) form.title, form.content
  * 단점) 객체 할당 불가능
- * 
+ *
  */
-const id = route.params.id;
+
 const post = ref({
 	title: null,
 	content: null,
@@ -62,16 +72,16 @@ const fetchPost = async () => {
 	try {
 		const { data } = await getPostById(props.id);
 		// post.value = { ...data }; // 어떤 데이터가 들어오는지 모름
-		setPost(data);	
+		setPost(data);
 	} catch (error) {
-		console.error(error);	
+		console.error(error);
 	}
 };
 const setPost = ({ title, content, createdAt }) => {
 	post.value.title = title;
 	post.value.content = content;
 	post.value.createdAt = createdAt;
-}
+};
 
 fetchPost();
 const remove = async () => {
@@ -84,9 +94,11 @@ const remove = async () => {
 	} catch (error) {
 		console.error(error);
 	}
-}
+};
+
 const goListPage = () => router.push({ name: 'PostList' });
-const goEditPage = () => router.push({ name: 'PostEdit', params: { id } });
+const goEditPage = () =>
+	router.push({ name: 'PostEdit', params: { id: props.id } });
 </script>
 
 <style lang="scss" scoped></style>

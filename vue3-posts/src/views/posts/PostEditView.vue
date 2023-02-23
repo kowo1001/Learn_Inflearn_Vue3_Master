@@ -46,7 +46,7 @@ const id = route.params.id;
 const form = ref({
 	title: null,
 	content: null,
-})
+});
 
 const fetchPost = async () => {
 	try {
@@ -60,7 +60,7 @@ const fetchPost = async () => {
 const setForm = ({ title, content }) => {
 	form.value.title = title;
 	form.value.content = content;
-}
+};
 
 fetchPost();
 const edit = async () => {
@@ -70,7 +70,7 @@ const edit = async () => {
 	} catch (error) {
 		console.error(error);
 	}
-}
+};
 
 const goDetailPage = () => router.push({ name: 'PostDetail', params: { id } });
 </script>

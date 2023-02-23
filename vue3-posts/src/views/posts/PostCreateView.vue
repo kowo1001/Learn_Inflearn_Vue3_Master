@@ -40,13 +40,12 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { createPost } from '@/api/posts';
 
-
 const router = useRouter();
 
 const form = ref({
 	title: null,
 	content: null,
-})
+});
 
 const save = () => {
 	try {
@@ -59,7 +58,6 @@ const save = () => {
 		console.error(error);
 	}
 };
-
 
 const goListPage = () => router.push({ name: 'PostList' });
 </script>
