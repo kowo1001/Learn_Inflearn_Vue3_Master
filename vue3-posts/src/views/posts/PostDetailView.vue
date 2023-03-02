@@ -33,10 +33,10 @@
 import { useRouter } from 'vue-router';
 import { getPostById } from '@/api/posts';
 import { ref } from 'vue';
-import { formToJSON } from 'axios';
+// import { formToJSON } from 'axios';
 
 const props = defineProps({
-	id: Number,
+	id: String,
 });
 
 // const route = useRoute();
