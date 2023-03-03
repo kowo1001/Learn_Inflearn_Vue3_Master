@@ -7,3 +7,8 @@ import router from '@/router';
 createApp(App).use(router).mount('#app');
 import 'bootstrap/dist/js/bootstrap.js';
 // import './assets/main.css';
+
+console.log('MODE: ', import.meta.env.MODE);
+console.log('BASE_URL: ', import.meta.env.BASE_URL);
+console.log('PROD: ', import.meta.env.PROD);
+console.log('DEV: ', import.meta.env.DEV);
